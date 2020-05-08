@@ -1,4 +1,4 @@
-const BigchainDB = require('bigchaindb-driver')
+const BigchainDB = require('bigchaindb-driver');
 const bip39 = require('bip39')
 
 const API_PATH = 'http://localhost:9984/api/v1/'
