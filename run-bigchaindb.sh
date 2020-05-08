@@ -1,5 +1,6 @@
 # !/bin/zsh
 
+docker rm bigchaindb
 docker run \
   --detach \
   --name bigchaindb \
