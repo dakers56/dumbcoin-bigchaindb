@@ -9,8 +9,10 @@ const nTokens = 10000
 const mUintArr = new Uint8Array([...Buffer.from('foobarfoobarfoobarfoobarfoobarfo')]);
 const tokenCreator = new BigchainDB
   .Ed25519Keypair(mUintArr)
-export const generatorPubkey = tokenCreator.publicKey
+const generatorPubkey = tokenCreator.publicKey
 console.log(`Public key is ${generatorPubkey}`);
+
+module.exports = generatorPubkey;
 
 async function tokenLaunch() {
   const asset = {
