@@ -1,22 +1,16 @@
 const BigchainDB = require('bigchaindb-driver');
 
-// if (process.argv.length < 3) throw Error("Must provide public key of recipient");
-// if (process.argv.length < 4) throw Error("Must provide private key of sender");
-// if (process.argv.length < 5) throw Error("Must amount of tokens to transfer");
-// if (process.argv.length < 6) throw Error("Must provide parent transaction id");
-// if (process.argv.length < 7) throw Error("Must provide sender's public key");
+if (process.argv.length < 3) throw Error("Must provide public key of recipient");
+if (process.argv.length < 4) throw Error("Must provide private key of sender");
+if (process.argv.length < 5) throw Error("Must amount of tokens to transfer");
+if (process.argv.length < 6) throw Error("Must provide parent transaction id");
+if (process.argv.length < 7) throw Error("Must provide sender's public key");
 
-// const recvUser = process.argv[2];
-// const sendPrivateKey = process.argv[3];
-// const amountToSend = Number(process.argv[4]);
-// const createTxId = process.argv[5];
-// const sendUser = process.argv[6];
-
-const recvUser = "6hVTKBnbd6BFtRxKyC8Sa3dndDVJ7jFcLAvPaYL227Ya";
-const sendPrivateKey = "7ts94Nnj5QDujKNPRprFXwCXNrdm6MEREML2ekHnHmHG";
-const amountToSend = 20;
-const createTxId = "7bb8d365ab502bfc1967ebd7153a9cebe930fe768232429bdc19a64edc703824"
-const sendUser = "6j5HxoByKMqCvJn6NtUCkhtELknwu7aisEHxoB1gHgqk";
+const recvUser = process.argv[2];
+const sendPrivateKey = process.argv[3];
+const amountToSend = Number(process.argv[4]);
+const createTxId = process.argv[5];
+const sendUser = process.argv[6];
 
 console.log(`Sending ${amountToSend} Dumbcoin tokens to ${recvUser}`);
 
