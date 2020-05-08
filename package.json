@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/dakers56/dumbcoin-bigchaindb#readme",
   "dependencies": {
-    "bigchaindb-driver": "^4.2.2"
+    "bigchaindb-driver": "^4.2.2",
+    "bip39": "^3.0.4"
   }
 }
