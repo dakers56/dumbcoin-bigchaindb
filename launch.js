@@ -1,7 +1,7 @@
 const BigchainDB = require('bigchaindb-driver')
 const bip39 = require('bip39')
 
-const API_PATH = 'https://test.ipdb.io/api/v1/'
+const API_PATH = 'http://localhost:9984/api/v1/'
 const conn = new BigchainDB.Connection(API_PATH)
 
 const nTokens = 10000
@@ -41,6 +41,9 @@ async function tokenLaunch() {
       // txSigned.id corresponds to the asset id of the tokens
       txnId = txSigned.id
     })
+    .catch(err => {
+      throw err;
+    })
   return txnId;
 }
 
@@ -51,3 +54,6 @@ tokenLaunch()
       console.log(`First transaction id is ${txnId}`);
     }
   )
+  .catch(err => {
+    console.log(`Error launching Dumbcoin: ${JSON.stringify(err)}`);
+  });
