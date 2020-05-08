@@ -5,40 +5,37 @@ const API_PATH = 'http://localhost:9984/api/v1/'
 const conn = new BigchainDB.Connection(API_PATH)
 
 const nTokens = 10000
-let tokensLeft
+
 const mUintArr = new Uint8Array([...Buffer.from('foobarfoobarfoobarfoobarfoobarfo')]);
 const tokenCreator = new BigchainDB
   .Ed25519Keypair(mUintArr)
-console.log(`Public key is ${tokenCreator.publicKey}`)
-let createTxId
-async function tokenLaunch() {
-  // Construct a transaction payload
-  const tx = BigchainDB.Transaction.makeCreateTransaction({
-    token: 'TT (Tutorial Tokens)',
-    number_tokens: nTokens
-  },
-    // Metadata field, contains information about the transaction itself
-    // (can be `null` if not needed)
-    {
-      datetime: new Date().toString()
-    },
-    // Output: Divisible asset, include nTokens as parameter
-    [BigchainDB.Transaction.makeOutput(BigchainDB.Transaction
-      .makeEd25519Condition(tokenCreator.publicKey), nTokens.toString())],
-    tokenCreator.publicKey
-  )
+console.log(`Public key is ${tokenCreator.publicKey}`);
 
-  // Sign the transaction with the private key of the token creator
+async function tokenLaunch() {
+  const asset = {
+    token: 'Dumbcoin',
+    number_tokens: nTokens
+  };
+  const metadata = {
+    lastModified: new Date().toString(),
+    isDumbcoin: true
+  };
+  const outputArr = [BigchainDB.Transaction.makeOutput(BigchainDB.Transaction
+    .makeEd25519Condition(tokenCreator.publicKey), nTokens.toString())];
+  const tx = BigchainDB.Transaction.makeCreateTransaction(
+    asset, 
+    metadata,
+    outputArr,
+    tokenCreator.publicKey
+  );
   const txSigned = BigchainDB.Transaction
     .signTransaction(tx, tokenCreator.privateKey)
-
-  // Send the transaction off to BigchainDB
   let txnId;
   await conn.postTransactionCommit(txSigned)
     .then(res => {
-      createTxId = res.id
-      tokensLeft = nTokens
-      // txSigned.id corresponds to the asset id of the tokens
+      console.log(`------------------------------`);
+      console.log(`Result: ${JSON.stringify(res, null, 1)}`);
+      console.log(`------------------------------`);
       txnId = txSigned.id
     })
     .catch(err => {
