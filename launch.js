@@ -6,10 +6,10 @@ const conn = new BigchainDB.Connection(API_PATH)
 
 const nTokens = 10000
 let tokensLeft
-const mnemonicArr = bip39.generateMnemonic().slice(0, 32);
-const mUintArr = new Uint8Array([...Buffer.from(mnemonicArr)]);
+const mUintArr = new Uint8Array([...Buffer.from('foobarfoobarfoobarfoobarfoobarfo')]);
 const tokenCreator = new BigchainDB
   .Ed25519Keypair(mUintArr)
+console.log(`Public key is ${tokenCreator.publicKey}`)
 let createTxId
 async function tokenLaunch() {
   // Construct a transaction payload
