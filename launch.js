@@ -23,7 +23,7 @@ async function tokenLaunch() {
   const outputArr = [BigchainDB.Transaction.makeOutput(BigchainDB.Transaction
     .makeEd25519Condition(tokenCreator.publicKey), nTokens.toString())];
   const tx = BigchainDB.Transaction.makeCreateTransaction(
-    asset, 
+    asset,
     metadata,
     outputArr,
     tokenCreator.publicKey
