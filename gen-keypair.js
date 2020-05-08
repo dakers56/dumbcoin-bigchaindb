@@ -12,7 +12,6 @@ const generateKeypair = (seed) => {
 }
 
 const padOrTrimSeed = (seed) => {
-    let finalSeed = seed;
     while(seed.length < 32) seed += '0';
     return seed.slice(0, 32);
 }
