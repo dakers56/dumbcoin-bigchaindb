@@ -33,18 +33,16 @@ async function tokenLaunch() {
   );
   const txSigned = BigchainDB.Transaction
     .signTransaction(tx, tokenCreator.privateKey)
-  let txnId;
-  await conn.postTransactionCommit(txSigned)
+  conn.postTransactionCommit(txSigned)
     .then(res => {
       console.log(`------------------------------`);
       console.log(`Result: ${JSON.stringify(res, null, 1)}`);
       console.log(`------------------------------`);
-      txnId = txSigned.id
+      return txSigned.id
     })
     .catch(err => {
       throw err;
     })
-  return txnId;
 }
 
 console.log('Launching Dumbcoin using bigchaindb!');
