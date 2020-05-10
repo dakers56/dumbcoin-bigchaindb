@@ -1,4 +1,5 @@
 const BigchainDB = require('bigchaindb-driver');
+const check = require('check-types');
 
 if (process.argv.length < 3) throw Error("Must provide public key of recipient");
 if (process.argv.length < 4) throw Error("Must provide private key of sender");
@@ -8,9 +9,10 @@ if (process.argv.length < 7) throw Error("Must provide sender's public key");
 
 const recvUser = process.argv[2];
 const sendPrivateKey = process.argv[3];
-const amountToSend = Number(process.argv[4]);
+const amountToSend = parseInt(process.argv[4]);
 const createTxId = process.argv[5];
 const sendUser = process.argv[6];
+const outputIndex = process.argv.length < 8 ? 0 : parseInt(process.argv[7]);
 
 console.log(`Sending ${amountToSend} Dumbcoin tokens to ${recvUser}`);
 
@@ -19,6 +21,7 @@ console.log(`sendPrivateKey: ${process.argv[3]}`);
 console.log(`amountToSend: ${process.argv[4]}`);
 console.log(`createTxId: ${process.argv[5]}`);
 console.log(`sendUser: ${process.argv[6]}`);
+console.log(`output index: ${process.argv[6]}`);
 
 const API_PATH = 'http://localhost:9984/api/v1/';
 const conn = new BigchainDB.Connection(API_PATH);
@@ -32,13 +35,16 @@ const makeOutput = (pubKey, amt) => {
 const transferTokens = async () => {
     const txOutputs = await conn.getTransaction(createTxId);
     console.log(`Outputs: ${JSON.stringify(txOutputs, null, 2)}`);
+    console.log('------------------');
 
     // Assuming that there was a single output to this txn
     const unspentOutputs = [{
         tx: txOutputs,
-        output_index: 0
+        output_index: outputIndex
     }];
-    const prevAmt = txOutputs.asset.data.number_tokens;
+    console.log(`Unspent outputs ${JSON.stringify(unspentOutputs)}`);
+    console.log('------------------');
+    const prevAmt = parseInt(txOutputs.outputs[outputIndex].amount);
     console.log(`Previous amount of tokens was: ${prevAmt}`);
     // There will be two outputs: the amount transferred, and the amount remaining from the source
     const outputs = [makeOutput(sendUser, prevAmt - amountToSend), makeOutput(recvUser, amountToSend)];
